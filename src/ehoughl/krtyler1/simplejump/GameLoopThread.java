@@ -128,18 +128,14 @@ public class GameLoopThread extends Thread implements SensorEventListener
         {
 			Integer xSensorValue = (int)sensorEvent.values[0];
 			
-//			if(xSensorValue > 10)
-//			{
-//				xSensorValue = 10;
-//			}
-//			else if(xSensorValue < 10)
-//			{
-//				xSensorValue = -10;
-//			}
+			if(xSensorValue < 1 && xSensorValue > -1)
+			{
+				xSensorValue *= 10;
+			}
 			
 			if(xSensorValue != null && heroObj != null) 
 			{
-				heroObj.setX(-xSensorValue*2); 
+				heroObj.setX(xSensorValue); 
 			}
         }
 	}

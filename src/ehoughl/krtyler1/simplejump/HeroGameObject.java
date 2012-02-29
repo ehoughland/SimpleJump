@@ -65,7 +65,7 @@ public class HeroGameObject implements GameObject
 	@Override
 	public void setX(int x) 
 	{
-		xPosition += x;
+		xPosition -= x;
 	}
 
 	@Override
