@@ -126,16 +126,11 @@ public class GameLoopThread extends Thread implements SensorEventListener
 	{
 		if (sensorEvent.sensor.getType() == Sensor.TYPE_ACCELEROMETER) 
         {
-			Integer xSensorValue = (int)sensorEvent.values[0];
-			
-			if(xSensorValue < 1 && xSensorValue > -1)
-			{
-				xSensorValue *= 10;
-			}
+			Float xSensorValue = sensorEvent.values[0];
 			
 			if(xSensorValue != null && heroObj != null) 
 			{
-				heroObj.setX(xSensorValue); 
+				heroObj.setX(xSensorValue.intValue()); 
 			}
         }
 	}
