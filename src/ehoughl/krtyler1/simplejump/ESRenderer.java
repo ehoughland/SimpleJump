@@ -5,6 +5,7 @@ import javax.microedition.khronos.opengles.GL10;
 import android.opengl.GLSurfaceView;
 import android.opengl.GLU;
 import android.os.SystemClock;
+import android.util.Log;
 	
 public class ESRenderer implements GLSurfaceView.Renderer 
 {
@@ -48,7 +49,16 @@ public class ESRenderer implements GLSurfaceView.Renderer
         yPosition = ((hero.initialJumpVelocity * hero.timeSinceLastJump()) - 
         		((0.5f * (gravity) * (hero.timeSinceLastJump() * hero.timeSinceLastJump()))))/1000;
         
-        if(yPosition < 0f)
+        yPosition += hero.yPositionOfLastJump;
+        
+        if(hero.yPositionBottom > yPosition)
+        {
+        	hero.isFalling = true;
+        }
+        
+        hero.yPositionBottom = yPosition;
+        
+        if(yPosition < -0.1f)
         {
         	hero.resetTimeSinceLastJump();
         }
@@ -68,8 +78,20 @@ public class ESRenderer implements GLSurfaceView.Renderer
         
         hero.draw(gl);
         
-        //check for collision if yPositionChange is negative.  if it is, reset time
-        
+        //check for collision
+        if(hero.isFalling)
+        {
+	        if(hero.yPositionBottom < platform.yPositionTop)
+	        {
+	        	Log.d("heroYpositionBottom", Float.toString(hero.yPositionBottom));
+	        	Log.d("platform.yPositionTop", Float.toString(platform.yPositionTop));
+	        	Log.d("yPositionOfLastJump", Float.toString(hero.yPositionOfLastJump));
+	        	
+	        	hero.resetTimeSinceLastJump();
+	        	hero.yPositionOfLastJump = hero.yPositionBottom;
+	        	hero.isFalling = false;
+	        }
+        }        
     }
 
     public void onSurfaceChanged(GL10 gl, int width, int height) 

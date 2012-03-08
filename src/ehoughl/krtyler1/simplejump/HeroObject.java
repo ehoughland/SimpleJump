@@ -17,9 +17,10 @@ public class HeroObject
 	public float yPositionBottom = -0.1f;
 	
 	public long timeOfLastJump = 0;
+	public float yPositionOfLastJump = -0.1f;
+	public boolean isFalling = false;
 	
 	float initialJumpVelocity = 3.5f;
-	float initialJumpPosition = -0.1f;
 	
     private float vertices[] = 
     {

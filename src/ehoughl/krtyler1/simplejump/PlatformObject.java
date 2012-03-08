@@ -42,7 +42,7 @@ public class PlatformObject
     public void draw(GL10 gl) 
     {
         gl.glEnableClientState(GL10.GL_VERTEX_ARRAY);
- 
+        
         // set the colour for the square
         gl.glColor4f(0.0f, 1.0f, 0.0f, 0.5f);
  
