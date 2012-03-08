@@ -38,19 +38,25 @@ public class ESRenderer implements GLSurfaceView.Renderer
         gl.glLoadIdentity();
         GLU.gluLookAt(gl, 0, 0, -5, 0f, 0f, 0f, 0f, 1.0f, 0.0f); 
         
+        platform.draw(gl);
+        
         if(hero.timeOfLastJump == 0)
         {
         	hero.timeOfLastJump = SystemClock.uptimeMillis();
         }
         
-        float yPositionChange = ((hero.initialJumpVelocity * hero.timeSinceLastJump()) - ((0.5f * (gravity) * (hero.timeSinceLastJump() * hero.timeSinceLastJump()))));
-        yPosition = yPositionChange/1000f;
+        yPosition = ((hero.initialJumpVelocity * hero.timeSinceLastJump()) - 
+        		((0.5f * (gravity) * (hero.timeSinceLastJump() * hero.timeSinceLastJump()))))/1000;
         
         if(yPosition < 0f)
         {
         	hero.resetTimeSinceLastJump();
         }
         
+        //only translating and rotating the hero - since it hasn't been drawn yet
+        gl.glTranslatef(0.0f, yPosition, 0.0f);
+        
+        //constant rotation for hero
         angle += 3;
         
         if(angle == 360)
@@ -58,12 +64,8 @@ public class ESRenderer implements GLSurfaceView.Renderer
         	angle = 0;
         }
         
-        platform.draw(gl);
-        
-        gl.glTranslatef(0.0f, yPosition, 0.0f);
         gl.glRotatef(angle, 0.0f, 1.0f, 0.0f);
         
-        // Draw the hero
         hero.draw(gl);
         
         //check for collision if yPositionChange is negative.  if it is, reset time
