@@ -57,16 +57,16 @@ public class GameActivity extends Activity
 		@Override
 		public void onSensorChanged(SensorEvent e) 
 		{
-			if (e.sensor.getType() == Sensor.TYPE_ACCELEROMETER) 
-	        {
-				Float xSensorValue = e.values[0];
-				
-				if(xSensorValue != null) 
-				{
-					//renderer.angle += 3;
-					//requestRender();
-				}
-			}
+//			if (e.sensor.getType() == Sensor.TYPE_ACCELEROMETER) 
+//	        {
+//				Float xSensorValue = e.values[0];
+//				
+//				if(xSensorValue != null) 
+//				{
+//					//renderer.angle += 3;
+//					//requestRender();
+//				}
+//			}
 		}
 
 		@Override
