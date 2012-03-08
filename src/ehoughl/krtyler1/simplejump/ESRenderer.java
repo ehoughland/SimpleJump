@@ -44,7 +44,7 @@ public class ESRenderer implements GLSurfaceView.Renderer
         }
         
         float yPositionChange = ((hero.initialJumpVelocity * hero.timeSinceLastJump()) - ((0.5f * (gravity) * (hero.timeSinceLastJump() * hero.timeSinceLastJump()))));
-        yPosition = yPositionChange/1000f + hero.yPositionBottom;
+        yPosition = yPositionChange/1000f;
         
         if(yPosition < 0f)
         {

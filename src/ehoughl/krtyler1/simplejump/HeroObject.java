@@ -14,10 +14,12 @@ public class HeroObject
  
 	public float xLeftPosition = -0.1f;
 	public float xRightPosition = 0.1f;
-	public float yPositionBottom = -1.0f;
+	public float yPositionBottom = -0.1f;
+	
 	public long timeOfLastJump = 0;
+	
 	float initialJumpVelocity = 3.5f;
-	float initialJumpPosition = -1.0f;
+	float initialJumpPosition = -0.1f;
 	
     private float vertices[] = 
     {
@@ -57,7 +59,7 @@ public class HeroObject
     {
         gl.glEnableClientState(GL10.GL_VERTEX_ARRAY);
         
-        gl.glTranslatef(0, -0.9f, 0);
+        //gl.glTranslatef(0, -0.9f, 0);
         
         // set the colour for the hero
         gl.glColor4f(0.0f, 0.0f, 1.0f, 0.5f);
