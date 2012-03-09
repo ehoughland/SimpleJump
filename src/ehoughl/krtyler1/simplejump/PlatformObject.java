@@ -27,7 +27,7 @@ public class PlatformObject
              0.2f,  0.1f,  0.0f         // V4 - top right
     };
  
-    public PlatformObject() 
+    public PlatformObject(float vertices[]) 
     {
         // a float has 4 bytes so we allocate for each coordinate 4 bytes
         ByteBuffer vertexByteBuffer = ByteBuffer.allocateDirect(vertices.length * 4);

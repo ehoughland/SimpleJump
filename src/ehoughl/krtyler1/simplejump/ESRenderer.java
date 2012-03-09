@@ -8,9 +8,25 @@ import android.util.Log;
 	
 public class ESRenderer implements GLSurfaceView.Renderer 
 {
+	private float vertices[] = 
+	    {
+	            -0.2f,  -0.1f,  0.0f,        // V1 - bottom left
+	            -0.2f,  0.1f,  0.0f,        // V2 - top left
+	             0.2f,  -0.1f,  0.0f,        // V3 - bottom right
+	             0.2f,  0.1f,  0.0f         // V4 - top right
+	    };
+	private float verticesTwo[] = 
+	    {
+	            -0.2f,  .6f,  0.0f,        // V1 - bottom left
+	            -0.2f,  .8f,  0.0f,        // V2 - top left
+	             0.2f,  .6f,  0.0f,        // V3 - bottom right
+	             0.2f,  .8f,  0.0f         // V4 - top right
+	    };
 	int angle = 0;
 	float gravity = 0.005f;
-	PlatformObject platform = new PlatformObject();
+	float testYPosition = (verticesTwo[1] + verticesTwo[4]) / 2;
+	PlatformObject platform = new PlatformObject(vertices);
+	PlatformObject platformTwo = new PlatformObject(verticesTwo);
 	HeroObject hero = new HeroObject();
 	int drawCount = 0;
 	
@@ -36,6 +52,7 @@ public class ESRenderer implements GLSurfaceView.Renderer
         GLU.gluLookAt(gl, 0, 0, -5, 0f, 0f, 0f, 0f, 1.0f, 0.0f); 
         
         platform.draw(gl);
+        platformTwo.draw(gl);
         
         heroNewlyCalculatedyPosition = ((hero.initialJumpVelocity * hero.timeSinceLastJump()) - 
         		((0.5f * (gravity) * (hero.timeSinceLastJump() * hero.timeSinceLastJump()))))/1000;
@@ -57,16 +74,17 @@ public class ESRenderer implements GLSurfaceView.Renderer
         //make him jump off a platform.
         
         //check for collision
-        if(hero.getIsFalling() && heroNewlyCalculatedyPosition <= platform.getYPosition()) //he has collided with the platform
+        if(hero.getIsFalling() && heroNewlyCalculatedyPosition <= testYPosition) //he has collided with the platform
         {
-        	hero.setYPositionOfLastJump(platform.getYPosition());
-        	hero.setYPosition(platform.getYPosition());
+        	hero.setYPositionOfLastJump(testYPosition);
+        	hero.setYPosition(testYPosition);
         	hero.jump();
-        	gl.glTranslatef(0.0f, platform.getYPosition(), 0.0f);
+        	gl.glTranslatef(0.0f, testYPosition, 0.0f);
         }
         else
         {
         	gl.glTranslatef(0.0f, heroNewlyCalculatedyPosition, 0.0f);
+        	hero.setYPosition(heroNewlyCalculatedyPosition);
         }
         
         //constant rotation for hero
