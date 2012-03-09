@@ -3,9 +3,7 @@ package ehoughl.krtyler1.simplejump;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.FloatBuffer;
-
 import javax.microedition.khronos.opengles.GL10;
-
 import android.os.SystemClock;
 
 public class HeroObject 
@@ -31,12 +29,20 @@ public class HeroObject
  
     public long timeSinceLastJump()
     {
-    	return SystemClock.uptimeMillis() - timeOfLastJump;
+    	if(timeOfLastJump == 0)
+    	{
+    		jump(); //we're starting the game so make him jump.
+    		return 0;
+    	}
+    	else
+    	{
+    		return SystemClock.uptimeMillis() - timeOfLastJump;
+    	}
     }
     
-    public void resetTimeSinceLastJump()
+    public void jump()
     {
-    	timeOfLastJump = 0;
+    	timeOfLastJump = SystemClock.uptimeMillis();
     }
     
     public HeroObject() 
@@ -58,9 +64,7 @@ public class HeroObject
     /** The draw method for the square with the GL context */
     public void draw(GL10 gl) 
     {
-        gl.glEnableClientState(GL10.GL_VERTEX_ARRAY);
-        
-        //gl.glTranslatef(0, -0.9f, 0);
+        //gl.glEnableClientState(GL10.GL_VERTEX_ARRAY);
         
         // set the colour for the hero
         gl.glColor4f(0.0f, 0.0f, 1.0f, 0.5f);
@@ -72,6 +76,6 @@ public class HeroObject
         gl.glDrawArrays(GL10.GL_TRIANGLE_STRIP, 0, vertices.length / 3);
  
         //Disable the client state before leaving
-        gl.glDisableClientState(GL10.GL_VERTEX_ARRAY);
+        //gl.glDisableClientState(GL10.GL_VERTEX_ARRAY);
     }
 }

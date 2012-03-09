@@ -4,26 +4,20 @@ import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 import android.opengl.GLSurfaceView;
 import android.opengl.GLU;
-import android.os.SystemClock;
 import android.util.Log;
 	
 public class ESRenderer implements GLSurfaceView.Renderer 
 {
 	int angle = 0;
-	float yPosition = 0f;
+	float yPosition = -0.1f;
 	float gravity = 0.005f;
 	PlatformObject platform = new PlatformObject();
 	HeroObject hero = new HeroObject();
-	
-	long timeOfLastJump = 0;
 	
 	public void onSurfaceCreated(GL10 gl, EGLConfig config) 
 	{
         // Set the background frame color
         gl.glClearColor(0.5f, 0.5f, 0.5f, 1.0f);
-        
-        // initialize the triangle vertex array
-        //initShapes();
         
         // Enable use of vertex arrays
         gl.glEnableClientState(GL10.GL_VERTEX_ARRAY);
@@ -41,26 +35,37 @@ public class ESRenderer implements GLSurfaceView.Renderer
         
         platform.draw(gl);
         
-        if(hero.timeOfLastJump == 0)
-        {
-        	hero.timeOfLastJump = SystemClock.uptimeMillis();
-        }
-        
         yPosition = ((hero.initialJumpVelocity * hero.timeSinceLastJump()) - 
         		((0.5f * (gravity) * (hero.timeSinceLastJump() * hero.timeSinceLastJump()))))/1000;
         
-        yPosition += hero.yPositionOfLastJump;
+        yPosition += hero.yPositionOfLastJump; //the position of the hero is dependent on the location of his last jump
         
+        //if his new position is less than or equal to his old position, we know he is falling
         if(hero.yPositionBottom > yPosition)
         {
         	hero.isFalling = true;
         }
         
+        //set the hero's yPosition attribute to the newly calculated position.
         hero.yPositionBottom = yPosition;
         
-        if(yPosition < -0.1f)
+        //at this point we know where he should be but have not done any collision calculations or drawn anything to the screen.
+        //we'll now do some calculation and determine if we should draw him where he should be according to the physics or
+        //make him jump off a platform.
+        
+        //check for collision
+        if(hero.isFalling)
         {
-        	hero.resetTimeSinceLastJump();
+	        if(hero.yPositionBottom <= platform.yPositionTop) //he has collided with the platform
+	        {
+	        	//Log.d("hero.yPositionBottom", Float.toString(hero.yPositionBottom));
+	        	//Log.d("platform.yPositionTop", Float.toString(platform.yPositionTop));
+	            
+	        	hero.jump();
+	        	hero.yPositionOfLastJump = platform.yPositionTop;
+	        	hero.yPositionBottom = platform.yPositionTop;
+	        	yPosition = platform.yPositionTop;
+	        }
         }
         
         //only translating and rotating the hero - since it hasn't been drawn yet
@@ -77,21 +82,6 @@ public class ESRenderer implements GLSurfaceView.Renderer
         gl.glRotatef(angle, 0.0f, 1.0f, 0.0f);
         
         hero.draw(gl);
-        
-        //check for collision
-        if(hero.isFalling)
-        {
-	        if(hero.yPositionBottom < platform.yPositionTop)
-	        {
-	        	Log.d("heroYpositionBottom", Float.toString(hero.yPositionBottom));
-	        	Log.d("platform.yPositionTop", Float.toString(platform.yPositionTop));
-	        	Log.d("yPositionOfLastJump", Float.toString(hero.yPositionOfLastJump));
-	        	
-	        	hero.resetTimeSinceLastJump();
-	        	hero.yPositionOfLastJump = hero.yPositionBottom;
-	        	hero.isFalling = false;
-	        }
-        }        
     }
 
     public void onSurfaceChanged(GL10 gl, int width, int height) 

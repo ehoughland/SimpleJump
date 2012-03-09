@@ -41,7 +41,7 @@ public class PlatformObject
     /** The draw method for the square with the GL context */
     public void draw(GL10 gl) 
     {
-        gl.glEnableClientState(GL10.GL_VERTEX_ARRAY);
+        //gl.glEnableClientState(GL10.GL_VERTEX_ARRAY);
         
         // set the colour for the square
         gl.glColor4f(0.0f, 1.0f, 0.0f, 0.5f);
@@ -53,6 +53,6 @@ public class PlatformObject
         gl.glDrawArrays(GL10.GL_TRIANGLE_STRIP, 0, vertices.length / 3);
  
         //Disable the client state before leaving
-        gl.glDisableClientState(GL10.GL_VERTEX_ARRAY);
+        //gl.glDisableClientState(GL10.GL_VERTEX_ARRAY);
     }
 }
