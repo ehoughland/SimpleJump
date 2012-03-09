@@ -12,6 +12,7 @@ public class ESRenderer implements GLSurfaceView.Renderer
 	float gravity = 0.005f;
 	PlatformObject platform = new PlatformObject();
 	HeroObject hero = new HeroObject();
+	int drawCount = 0;
 	
 	public void onSurfaceCreated(GL10 gl, EGLConfig config) 
 	{
@@ -39,16 +40,16 @@ public class ESRenderer implements GLSurfaceView.Renderer
         heroNewlyCalculatedyPosition = ((hero.initialJumpVelocity * hero.timeSinceLastJump()) - 
         		((0.5f * (gravity) * (hero.timeSinceLastJump() * hero.timeSinceLastJump()))))/1000;
         
-        heroNewlyCalculatedyPosition += hero.yPositionOfLastJump; //the position of the hero is dependent on the location of his last jump
+        heroNewlyCalculatedyPosition += hero.getYPositionOfLastJump(); //the position of the hero is dependent on the location of his last jump
         
         //if his new position is less than his old position, we know he is falling
-        if(hero.yPosition > heroNewlyCalculatedyPosition)
+        if(hero.getYPosition() > heroNewlyCalculatedyPosition)
         {
-        	hero.isFalling = true;
+        	hero.setIsFalling(true);
         }
         else
         {
-        	hero.isFalling = false;
+        	hero.setIsFalling(false);
         }
         
         //at this point we know where he should be but have not done any collision calculations or drawn anything to the screen.
@@ -56,12 +57,12 @@ public class ESRenderer implements GLSurfaceView.Renderer
         //make him jump off a platform.
         
         //check for collision
-        if(hero.isFalling && heroNewlyCalculatedyPosition <= platform.yPosition) //he has collided with the platform
+        if(hero.getIsFalling() && heroNewlyCalculatedyPosition <= platform.getYPosition()) //he has collided with the platform
         {
-        	hero.yPositionOfLastJump = platform.yPosition;
-        	hero.yPosition = platform.yPosition;
+        	hero.setYPositionOfLastJump(platform.getYPosition());
+        	hero.setYPosition(platform.getYPosition());
         	hero.jump();
-        	gl.glTranslatef(0.0f, platform.yPosition, 0.0f);
+        	gl.glTranslatef(0.0f, platform.getYPosition(), 0.0f);
         }
         else
         {

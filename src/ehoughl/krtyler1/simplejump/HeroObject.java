@@ -10,21 +10,51 @@ public class HeroObject
 {
 	private FloatBuffer vertexBuffer;   // buffer holding the vertices
  
-	public float xLeftPosition = -0.1f;
-	public float xRightPosition = 0.1f;
-	public float yPosition = -0.1f;
+	private float xLeftPosition = -0.1f;
+	private float xRightPosition = 0.1f;
+	private float yPosition = 0f;
 	
-	public long timeOfLastJump = 0;
-	public float yPositionOfLastJump = 0f;
-	public boolean isFalling = false;
+	private long timeOfLastJump = 0;
+	private float yPositionOfLastJump = 0f;
+	private boolean isFalling = false;
 	
 	float initialJumpVelocity = 3.5f;
 	
+	public void setIsFalling(boolean isFalling)
+	{
+		this.isFalling = isFalling;
+	}
+	
+	public boolean getIsFalling()
+	{
+		return this.isFalling;
+	}
+	
+	public float getYPositionOfLastJump()
+	{
+		return this.yPositionOfLastJump;
+	}
+	
+	public void setYPositionOfLastJump(float yPositionOfLastJump)
+	{
+		this.yPositionOfLastJump = yPositionOfLastJump;
+	}
+	
+	public float getYPosition()
+	{
+		return this.yPosition;
+	}
+	
+	public void setYPosition(float yPosition)
+	{
+		this.yPosition = yPosition;
+	}
+	
     private float vertices[] = 
     {
-	   -0.1f, -0.1f, 0,
-	    0.1f, -0.1f, 0,
-	    0.0f,  0.1f, 0
+	   -0.1f, 0.1f, 0,
+	    0.1f, 0.1f, 0,
+	    0.0f,  0.3f, 0
     };
  
     public long timeSinceLastJump()
@@ -73,7 +103,7 @@ public class HeroObject
         gl.glVertexPointer(3, GL10.GL_FLOAT, 0, vertexBuffer);
  
         // Draw the vertices as triangle strip
-        gl.glDrawArrays(GL10.GL_TRIANGLE_STRIP, 0, vertices.length / 3);
+        gl.glDrawArrays(GL10.GL_TRIANGLES, 0, vertices.length / 3);
  
         //Disable the client state before leaving
         //gl.glDisableClientState(GL10.GL_VERTEX_ARRAY);

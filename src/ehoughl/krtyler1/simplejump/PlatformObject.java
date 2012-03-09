@@ -10,15 +10,20 @@ public class PlatformObject
 {
 	private FloatBuffer vertexBuffer;   // buffer holding the vertices
  
-	public float xLeftPosition = -0.2f;
-	public float xRightPosition = 0.2f;
-	public float yPosition = 0f;
+	private float xLeftPosition = -0.2f;
+	private float xRightPosition = 0.2f;
+	private float yPosition = 0f;
+	
+	public float getYPosition()
+	{
+		return this.yPosition;
+	}
 	
     private float vertices[] = 
     {
-            -0.2f,  0.0f,  0.0f,        // V1 - bottom left
+            -0.2f,  -0.1f,  0.0f,        // V1 - bottom left
             -0.2f,  0.1f,  0.0f,        // V2 - top left
-             0.2f,  0.0f,  0.0f,        // V3 - bottom right
+             0.2f,  -0.1f,  0.0f,        // V3 - bottom right
              0.2f,  0.1f,  0.0f         // V4 - top right
     };
  
