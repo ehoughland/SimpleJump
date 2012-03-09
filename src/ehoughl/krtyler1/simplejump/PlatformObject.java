@@ -12,7 +12,7 @@ public class PlatformObject
  
 	public float xLeftPosition = -0.2f;
 	public float xRightPosition = 0.2f;
-	public float yPositionTop = 0.1f;
+	public float yPosition = 0f;
 	
     private float vertices[] = 
     {

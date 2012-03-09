@@ -1,6 +1,5 @@
 package ehoughl.krtyler1.simplejump;
 
-import ehoughl.krtyler1.simplejump.R;
 import android.app.Activity;
 import android.content.Context;
 import android.hardware.Sensor;
@@ -8,7 +7,6 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.opengl.GLSurfaceView;
 import android.os.Bundle;
-import android.view.MotionEvent;
 
 public class GameActivity extends Activity 
 {

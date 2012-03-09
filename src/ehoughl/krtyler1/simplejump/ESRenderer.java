@@ -9,7 +9,6 @@ import android.util.Log;
 public class ESRenderer implements GLSurfaceView.Renderer 
 {
 	int angle = 0;
-	float yPosition = -0.1f;
 	float gravity = 0.005f;
 	PlatformObject platform = new PlatformObject();
 	HeroObject hero = new HeroObject();
@@ -25,6 +24,8 @@ public class ESRenderer implements GLSurfaceView.Renderer
     
     public void onDrawFrame(GL10 gl) 
     {
+    	float heroNewlyCalculatedyPosition = 0f;
+    	
     	// Redraw background color
         gl.glClear(GL10.GL_COLOR_BUFFER_BIT | GL10.GL_DEPTH_BUFFER_BIT);
         
@@ -35,41 +36,37 @@ public class ESRenderer implements GLSurfaceView.Renderer
         
         platform.draw(gl);
         
-        yPosition = ((hero.initialJumpVelocity * hero.timeSinceLastJump()) - 
+        heroNewlyCalculatedyPosition = ((hero.initialJumpVelocity * hero.timeSinceLastJump()) - 
         		((0.5f * (gravity) * (hero.timeSinceLastJump() * hero.timeSinceLastJump()))))/1000;
         
-        yPosition += hero.yPositionOfLastJump; //the position of the hero is dependent on the location of his last jump
+        heroNewlyCalculatedyPosition += hero.yPositionOfLastJump; //the position of the hero is dependent on the location of his last jump
         
-        //if his new position is less than or equal to his old position, we know he is falling
-        if(hero.yPositionBottom > yPosition)
+        //if his new position is less than his old position, we know he is falling
+        if(hero.yPosition > heroNewlyCalculatedyPosition)
         {
         	hero.isFalling = true;
         }
-        
-        //set the hero's yPosition attribute to the newly calculated position.
-        hero.yPositionBottom = yPosition;
+        else
+        {
+        	hero.isFalling = false;
+        }
         
         //at this point we know where he should be but have not done any collision calculations or drawn anything to the screen.
         //we'll now do some calculation and determine if we should draw him where he should be according to the physics or
         //make him jump off a platform.
         
         //check for collision
-        if(hero.isFalling)
+        if(hero.isFalling && heroNewlyCalculatedyPosition <= platform.yPosition) //he has collided with the platform
         {
-	        if(hero.yPositionBottom <= platform.yPositionTop) //he has collided with the platform
-	        {
-	        	//Log.d("hero.yPositionBottom", Float.toString(hero.yPositionBottom));
-	        	//Log.d("platform.yPositionTop", Float.toString(platform.yPositionTop));
-	            
-	        	hero.jump();
-	        	hero.yPositionOfLastJump = platform.yPositionTop;
-	        	hero.yPositionBottom = platform.yPositionTop;
-	        	yPosition = platform.yPositionTop;
-	        }
+        	hero.yPositionOfLastJump = platform.yPosition;
+        	hero.yPosition = platform.yPosition;
+        	hero.jump();
+        	gl.glTranslatef(0.0f, platform.yPosition, 0.0f);
         }
-        
-        //only translating and rotating the hero - since it hasn't been drawn yet
-        gl.glTranslatef(0.0f, yPosition, 0.0f);
+        else
+        {
+        	gl.glTranslatef(0.0f, heroNewlyCalculatedyPosition, 0.0f);
+        }
         
         //constant rotation for hero
         angle += 3;
