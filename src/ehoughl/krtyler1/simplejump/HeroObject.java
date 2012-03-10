@@ -10,8 +10,7 @@ public class HeroObject
 {
 	private FloatBuffer vertexBuffer;   // buffer holding the vertices
  
-	private float xLeftPosition = 0.4f;
-	private float xRightPosition = 0.6f;
+	private float xPosition = -0.5f;
 	private float yPosition = -0.8f;
 	
 	private long timeOfLastJump = 0;
@@ -38,6 +37,16 @@ public class HeroObject
 	public void setYPositionOfLastJump(float yPositionOfLastJump)
 	{
 		this.yPositionOfLastJump = yPositionOfLastJump;
+	}
+	
+	public float getXPosition()
+	{
+		return this.xPosition;
+	}
+	
+	public void setXPosition(float xPosition)
+	{
+		this.xPosition = xPosition;
 	}
 	
 	public float getYPosition()

@@ -9,26 +9,27 @@ import javax.microedition.khronos.opengles.GL10;
 public class PlatformObject 
 {
 	private FloatBuffer vertexBuffer;   // buffer holding the vertices
- 
-	private float xLeftPosition = -0.2f;
-	private float xRightPosition = 0.2f;
-	private float yPosition = 0f;
 	
 	public float getYPosition()
 	{
-		return this.yPosition;
+		return vertices[5];
 	}
 	
-    private float vertices[] = 
-    {
-            -0.2f,  -0.1f,  0.0f,        // V1 - bottom left
-            -0.2f,  0.1f,  0.0f,        // V2 - top left
-             0.2f,  -0.1f,  0.0f,        // V3 - bottom right
-             0.2f,  0.1f,  0.0f         // V4 - top right
-    };
+	public float[] getXRange()
+	{
+		float[] f = new float[2];
+		f[0] = vertices[4];
+		f[1] = vertices[10];
+		
+		return f;
+		
+	}
+	
+    private float vertices[];
  
     public PlatformObject(float vertices[]) 
     {
+    	this.vertices = vertices;
         // a float has 4 bytes so we allocate for each coordinate 4 bytes
         ByteBuffer vertexByteBuffer = ByteBuffer.allocateDirect(vertices.length * 4);
         vertexByteBuffer.order(ByteOrder.nativeOrder());

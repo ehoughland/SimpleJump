@@ -1,5 +1,7 @@
 package ehoughl.krtyler1.simplejump;
 
+import java.util.ArrayList;
+
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 import android.opengl.GLSurfaceView;
@@ -8,29 +10,36 @@ import android.opengl.GLU;
 public class ESRenderer implements GLSurfaceView.Renderer
 {	
 	private float vertices1[] = 
-	    {
-	            -0.2f,  -0.4f,  0.0f,        // V1 - bottom left
-	            -0.2f,  -0.3f,  0.0f,        // V2 - top left
-	             0.2f,  -0.4f,  0.0f,        // V3 - bottom right
-	             0.2f,  -0.3f,  0.0f         // V4 - top right
-	    };
+	{
+		-0.6f,  -0.4f,  0.0f,        // V1 - bottom left
+		-0.6f,  -0.3f,  0.0f,        // V2 - top left
+		-0.2f,  -0.4f,  0.0f,        // V3 - bottom right
+		-0.2f,  -0.3f,  0.0f         // V4 - top right
+	};
+	
 	private float vertices2[] = 
-	    {
-	            -0.2f,  .3f,  0.0f,        // V1 - bottom left
-	            -0.2f,  .4f,  0.0f,        // V2 - top left
-	             0.2f,  .3f,  0.0f,        // V3 - bottom right
-	             0.2f,  .4f,  0.0f         // V4 - top right
-	    };
+    {
+        0.2f,  0.3f,  0.0f,        // V1 - bottom left
+        0.2f,  0.4f,  0.0f,        // V2 - top left
+        0.6f,  0.3f,  0.0f,        // V3 - bottom right
+        0.6f,  0.4f,  0.0f         // V4 - top right
+    };
+	
+	PlatformObject platform1 = new PlatformObject(vertices1);
+	PlatformObject platform2 = new PlatformObject(vertices2);
+	
+	ArrayList<PlatformObject> platforms = new ArrayList<PlatformObject>();
 	
 	float tilt = 0;
 	int angle = 0;
 	float gravity = 0.005f;
-	PlatformObject platform1 = new PlatformObject(vertices1);
-	PlatformObject platform2 = new PlatformObject(vertices2);
 	HeroObject hero = new HeroObject();
 	
 	public void onSurfaceCreated(GL10 gl, EGLConfig config) 
 	{
+		platforms.add(platform1);
+		platforms.add(platform2);
+		
         // Set the background frame color
         gl.glClearColor(0.5f, 0.5f, 0.5f, 1.0f);
         
@@ -73,12 +82,23 @@ public class ESRenderer implements GLSurfaceView.Renderer
         //make him jump off a platform.
         
         //check for collision
-        if(hero.getIsFalling() && heroNewlyCalculatedyPosition <= -0.8f)
+        if(hero.getIsFalling())
         {
-        	hero.setYPositionOfLastJump(-0.8f);
-        	hero.setYPosition(-0.8f);
-        	hero.jump();
-        	gl.glTranslatef(tilt, -0.8f, 0.0f);
+        	for(PlatformObject p : platforms)
+        	{
+        		if(heroNewlyCalculatedyPosition <= p.getYPosition() && p.getYPosition() < heroNewlyCalculatedyPosition + 0.05f)
+        		{
+        			hero.setYPositionOfLastJump(p.getYPosition());
+    				hero.setYPosition(p.getYPosition());
+    				hero.jump();
+    				gl.glTranslatef(tilt, p.getYPosition(), 0.0f);
+        		}
+        		else
+                {
+                	gl.glTranslatef(tilt, heroNewlyCalculatedyPosition, 0.0f);
+                	hero.setYPosition(heroNewlyCalculatedyPosition);
+                }
+        	}
         }
         else
         {
