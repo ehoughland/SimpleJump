@@ -4,31 +4,30 @@ import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 import android.opengl.GLSurfaceView;
 import android.opengl.GLU;
-import android.util.Log;
 	
-public class ESRenderer implements GLSurfaceView.Renderer 
-{
-	private float vertices[] = 
+public class ESRenderer implements GLSurfaceView.Renderer
+{	
+	private float vertices1[] = 
 	    {
-	            -0.2f,  -0.1f,  0.0f,        // V1 - bottom left
-	            -0.2f,  0.1f,  0.0f,        // V2 - top left
-	             0.2f,  -0.1f,  0.0f,        // V3 - bottom right
-	             0.2f,  0.1f,  0.0f         // V4 - top right
+	            -0.2f,  -0.4f,  0.0f,        // V1 - bottom left
+	            -0.2f,  -0.3f,  0.0f,        // V2 - top left
+	             0.2f,  -0.4f,  0.0f,        // V3 - bottom right
+	             0.2f,  -0.3f,  0.0f         // V4 - top right
 	    };
-	private float verticesTwo[] = 
+	private float vertices2[] = 
 	    {
-	            -0.2f,  .6f,  0.0f,        // V1 - bottom left
-	            -0.2f,  .8f,  0.0f,        // V2 - top left
-	             0.2f,  .6f,  0.0f,        // V3 - bottom right
-	             0.2f,  .8f,  0.0f         // V4 - top right
+	            -0.2f,  .3f,  0.0f,        // V1 - bottom left
+	            -0.2f,  .4f,  0.0f,        // V2 - top left
+	             0.2f,  .3f,  0.0f,        // V3 - bottom right
+	             0.2f,  .4f,  0.0f         // V4 - top right
 	    };
+	
+	float tilt = 0;
 	int angle = 0;
 	float gravity = 0.005f;
-	float testYPosition = (verticesTwo[1] + verticesTwo[4]) / 2;
-	PlatformObject platform = new PlatformObject(vertices);
-	PlatformObject platformTwo = new PlatformObject(verticesTwo);
+	PlatformObject platform1 = new PlatformObject(vertices1);
+	PlatformObject platform2 = new PlatformObject(vertices2);
 	HeroObject hero = new HeroObject();
-	int drawCount = 0;
 	
 	public void onSurfaceCreated(GL10 gl, EGLConfig config) 
 	{
@@ -51,8 +50,8 @@ public class ESRenderer implements GLSurfaceView.Renderer
         gl.glLoadIdentity();
         GLU.gluLookAt(gl, 0, 0, -5, 0f, 0f, 0f, 0f, 1.0f, 0.0f); 
         
-        platform.draw(gl);
-        platformTwo.draw(gl);
+        platform1.draw(gl);
+        platform2.draw(gl);
         
         heroNewlyCalculatedyPosition = ((hero.initialJumpVelocity * hero.timeSinceLastJump()) - 
         		((0.5f * (gravity) * (hero.timeSinceLastJump() * hero.timeSinceLastJump()))))/1000;
@@ -69,21 +68,21 @@ public class ESRenderer implements GLSurfaceView.Renderer
         	hero.setIsFalling(false);
         }
         
-        //at this point we know where he should be but have not done any collision calculations or drawn anything to the screen.
+        //at this point we know where he should be but have not done any collision calculations or drawn him to the screen.
         //we'll now do some calculation and determine if we should draw him where he should be according to the physics or
         //make him jump off a platform.
         
         //check for collision
-        if(hero.getIsFalling() && heroNewlyCalculatedyPosition <= testYPosition) //he has collided with the platform
+        if(hero.getIsFalling() && heroNewlyCalculatedyPosition <= -0.8f)
         {
-        	hero.setYPositionOfLastJump(testYPosition);
-        	hero.setYPosition(testYPosition);
+        	hero.setYPositionOfLastJump(-0.8f);
+        	hero.setYPosition(-0.8f);
         	hero.jump();
-        	gl.glTranslatef(0.0f, testYPosition, 0.0f);
+        	gl.glTranslatef(tilt, -0.8f, 0.0f);
         }
         else
         {
-        	gl.glTranslatef(0.0f, heroNewlyCalculatedyPosition, 0.0f);
+        	gl.glTranslatef(tilt, heroNewlyCalculatedyPosition, 0.0f);
         	hero.setYPosition(heroNewlyCalculatedyPosition);
         }
         
@@ -95,7 +94,7 @@ public class ESRenderer implements GLSurfaceView.Renderer
         	angle = 0;
         }
         
-        gl.glRotatef(angle, 0.0f, 1.0f, 0.0f);
+        //gl.glRotatef(angle, 0.0f, 1.0f, 0.0f);
         
         hero.draw(gl);
     }

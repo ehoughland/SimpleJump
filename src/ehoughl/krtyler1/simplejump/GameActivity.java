@@ -1,12 +1,20 @@
 package ehoughl.krtyler1.simplejump;
 
+import java.util.LinkedList;
+import java.util.PriorityQueue;
+import java.util.Queue;
+
 import android.app.Activity;
 import android.content.Context;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
 import android.opengl.GLSurfaceView;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.HandlerThread;
+import android.view.MotionEvent;
 
 public class GameActivity extends Activity 
 {
@@ -48,29 +56,42 @@ public class GameActivity extends Activity
 			renderer = new ESRenderer();
 			setRenderer(renderer);
 			
+			SensorManager mSensorMgr = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
+			HandlerThread mHandlerThread = new HandlerThread("sensorThread");
+			mHandlerThread.start();
+			Handler handler = new Handler(mHandlerThread.getLooper());
+			mSensorMgr.registerListener(this, mSensorMgr.getDefaultSensor(Sensor.TYPE_ACCELEROMETER),
+			                    SensorManager.SENSOR_DELAY_GAME, handler);
+			
 			// Render the view only when there is a change
 			//setRenderMode(GLSurfaceView.RENDERMODE_WHEN_DIRTY);
-		}
-		
-		@Override
-		public void onSensorChanged(SensorEvent e) 
-		{
-//			if (e.sensor.getType() == Sensor.TYPE_ACCELEROMETER) 
-//	        {
-//				Float xSensorValue = e.values[0];
-//				
-//				if(xSensorValue != null) 
-//				{
-//					//renderer.angle += 3;
-//					//requestRender();
-//				}
-//			}
 		}
 
 		@Override
 		public void onAccuracyChanged(Sensor sensor, int accuracy) 
 		{
-			// TODO Auto-generated method stub	
+			// TODO Auto-generated method stub
 		}
+
+		float smoothedValue = 0.0f;
+		
+		@Override
+		public void onSensorChanged(SensorEvent event) 
+		{
+	        if (event.sensor.getType() == Sensor.TYPE_ACCELEROMETER) 
+	        {
+	        	smoothedValue = smoothedValue + SMOOTHING_FACTOR * (event.values[0] - smoothedValue);
+	        	
+	        	queueEvent(new Runnable() 
+	            {
+	                public void run() 
+	                {
+	                    renderer.tilt += smoothedValue/100f;
+	                }
+	            });
+	        }
+		}
+		
+		static final float SMOOTHING_FACTOR = 0.15f;
 	}
 }

@@ -10,15 +10,15 @@ public class HeroObject
 {
 	private FloatBuffer vertexBuffer;   // buffer holding the vertices
  
-	private float xLeftPosition = -0.1f;
-	private float xRightPosition = 0.1f;
-	private float yPosition = 0f;
+	private float xLeftPosition = 0.4f;
+	private float xRightPosition = 0.6f;
+	private float yPosition = -0.8f;
 	
 	private long timeOfLastJump = 0;
-	private float yPositionOfLastJump = 0f;
+	private float yPositionOfLastJump = -0.8f;
 	private boolean isFalling = false;
 	
-	float initialJumpVelocity = 3.5f;
+	float initialJumpVelocity = 4.3f;
 	
 	public void setIsFalling(boolean isFalling)
 	{
@@ -52,9 +52,9 @@ public class HeroObject
 	
     private float vertices[] = 
     {
-	   -0.1f, 0.1f, 0,
-	    0.1f, 0.1f, 0,
-	    0.0f,  0.3f, 0
+	    -0.4f, -1.2f, 0,
+	    -0.6f, -1.2f, 0,
+	    -0.5f,  -1.0f, 0
     };
  
     public long timeSinceLastJump()
