@@ -9,66 +9,52 @@ import android.opengl.GLU;
 	
 public class ESRenderer implements GLSurfaceView.Renderer
 {	
-	private float vertices1[] = 
-	{
-		-0.6f,  -0.4f,  0.0f,        // V1 - bottom left
-		-0.6f,  -0.3f,  0.0f,        // V2 - top left
-		-0.2f,  -0.4f,  0.0f,        // V3 - bottom right
-		-0.2f,  -0.3f,  0.0f         // V4 - top right
-	};
-	
-	private float vertices2[] = 
-    {
-        0.2f,  0.3f,  0.0f,        // V1 - bottom left
-        0.2f,  0.4f,  0.0f,        // V2 - top left
-        0.6f,  0.3f,  0.0f,        // V3 - bottom right
-        0.6f,  0.4f,  0.0f         // V4 - top right
-    };
-	
-	PlatformObject platform1 = new PlatformObject(vertices1);
-	PlatformObject platform2 = new PlatformObject(vertices2);
-	
-	ArrayList<PlatformObject> platforms = new ArrayList<PlatformObject>();
-	
-	float tilt = 0;
-	int angle = 0;
-	float gravity = 0.005f;
+	Level level = new Level();
 	HeroObject hero = new HeroObject();
+	ArrayList<PlatformObject> platforms = level.getPlatforms();
+	private float tilt = 0.0f;
+	private float angle = 0.0f;
+	
+	public void setTilt(float tilt)
+	{
+		this.tilt += tilt;
+	}
 	
 	public void onSurfaceCreated(GL10 gl, EGLConfig config) 
 	{
-		platforms.add(platform1);
-		platforms.add(platform2);
-		
-        // Set the background frame color
-        gl.glClearColor(0.5f, 0.5f, 0.5f, 1.0f);
-        
-        // Enable use of vertex arrays
-        gl.glEnableClientState(GL10.GL_VERTEX_ARRAY);
+		// Set the background color to black ( rgba ).
+		gl.glClearColor(0.0f, 0.0f, 0.7f, 0.5f);  
+		// Enable Smooth Shading, default not really needed.
+		gl.glShadeModel(GL10.GL_SMOOTH);
+		// Depth buffer setup.
+		gl.glClearDepthf(1.0f);
+		// Enables depth testing.
+		gl.glEnable(GL10.GL_DEPTH_TEST);
+		// The type of depth testing to do.
+		gl.glDepthFunc(GL10.GL_LEQUAL);
+		// Really nice perspective calculations.
+		gl.glHint(GL10.GL_PERSPECTIVE_CORRECTION_HINT, GL10.GL_NICEST);
     }
     
     public void onDrawFrame(GL10 gl) 
     {
-    	float heroNewlyCalculatedyPosition = 0f;
-    	
     	// Redraw background color
         gl.glClear(GL10.GL_COLOR_BUFFER_BIT | GL10.GL_DEPTH_BUFFER_BIT);
-        
-        // Set GL_MODELVIEW transformation mode
-        gl.glMatrixMode(GL10.GL_MODELVIEW);
         gl.glLoadIdentity();
-        GLU.gluLookAt(gl, 0, 0, -5, 0f, 0f, 0f, 0f, 1.0f, 0.0f); 
+        gl.glTranslatef(0, 0, -4);
         
-        platform1.draw(gl);
-        platform2.draw(gl);
+        //draw platforms
+    	for(PlatformObject p : platforms)
+    	{
+    		p.draw(gl);
+    	}
         
-        heroNewlyCalculatedyPosition = ((hero.initialJumpVelocity * hero.timeSinceLastJump()) - 
-        		((0.5f * (gravity) * (hero.timeSinceLastJump() * hero.timeSinceLastJump()))))/1000;
-        
-        heroNewlyCalculatedyPosition += hero.getYPositionOfLastJump(); //the position of the hero is dependent on the location of his last jump
-        
+        float newHeroYPosition = ((hero.getInitialJumpVelocity() * hero.getTimeSinceLastJump()) 
+        		- ((0.5f * (level.getGravity()) * (hero.getTimeSinceLastJump() * hero.getTimeSinceLastJump()))))/1000.0f 
+        		+ hero.getYPositionOfLastJump();
+       
         //if his new position is less than his old position, we know he is falling
-        if(hero.getYPosition() > heroNewlyCalculatedyPosition)
+        if(hero.getYPosition() > newHeroYPosition)
         {
         	hero.setIsFalling(true);
         }
@@ -77,56 +63,80 @@ public class ESRenderer implements GLSurfaceView.Renderer
         	hero.setIsFalling(false);
         }
         
+        //if he goes over the left edge, put him on the right edge, and vice-versa.
+        if(tilt > 1.1f)
+        {
+        	tilt = -1.0f;
+        }
+        else if(tilt < -1.1f)
+        {
+        	tilt = 1.0f;
+        }
+        
+        hero.setXPosition(tilt);
+        
         //at this point we know where he should be but have not done any collision calculations or drawn him to the screen.
         //we'll now do some calculation and determine if we should draw him where he should be according to the physics or
         //make him jump off a platform.
         
-        //check for collision
+        boolean jumped = false;
+        
         if(hero.getIsFalling())
         {
-        	for(PlatformObject p : platforms)
-        	{
-        		if(heroNewlyCalculatedyPosition <= p.getYPosition() && p.getYPosition() < heroNewlyCalculatedyPosition + 0.05f)
-        		{
-        			hero.setYPositionOfLastJump(p.getYPosition());
-    				hero.setYPosition(p.getYPosition());
-    				hero.jump();
-    				gl.glTranslatef(tilt, p.getYPosition(), 0.0f);
-        		}
-        		else
-                {
-                	gl.glTranslatef(tilt, heroNewlyCalculatedyPosition, 0.0f);
-                	hero.setYPosition(heroNewlyCalculatedyPosition);
-                }
-        	}
+	        for(PlatformObject p : platforms)
+	        {
+	        	if(newHeroYPosition <= p.getYPosition() + 0.035f && newHeroYPosition >= p.getYPosition() - 0.035f)
+	        	{
+	        		if(hero.getXPosition() <= p.getXPosition() + 0.3f && hero.getXPosition() >= p.getXPosition() - 0.3f)
+	        		{
+	        			gl.glPushMatrix();
+	        	        gl.glTranslatef(hero.getXPosition(), p.getYPosition(), 0.0f);
+	        	        //gl.glRotatef(angle, 0.0f, 1.0f, 0.0f);
+	        	        hero.jump(p.getYPosition());
+	        	        angle = 0;
+	        	        hero.setYPosition(p.getYPosition());
+	        	        hero.draw(gl);
+	        	        gl.glPopMatrix();
+	        	        jumped = true;
+	        		}
+	        	}
+	        }
         }
-        else
+        
+        if(!jumped)
         {
-        	gl.glTranslatef(tilt, heroNewlyCalculatedyPosition, 0.0f);
-        	hero.setYPosition(heroNewlyCalculatedyPosition);
+	        gl.glPushMatrix();
+	        gl.glTranslatef(hero.getXPosition(), newHeroYPosition, 0.0f);
+	        
+	        if(hero.getTimeSinceLastJump() > 942.45f)
+	        {
+	        	angle += 3;
+	        }
+	        else
+	        {
+	        	angle += (float)Math.cos(hero.getTimeSinceLastJump()/600.0f) * 20.0f;
+	        }
+	        
+	        gl.glRotatef(angle, 0.0f, 1.0f, 0.0f);
+	        hero.setYPosition(newHeroYPosition);
+	        hero.draw(gl);
+	        gl.glPopMatrix();
         }
-        
-        //constant rotation for hero
-        angle += 3;
-        
-        if(angle == 360)
-        {
-        	angle = 0;
-        }
-        
-        //gl.glRotatef(angle, 0.0f, 1.0f, 0.0f);
-        
-        hero.draw(gl);
     }
 
     public void onSurfaceChanged(GL10 gl, int width, int height) 
     {
-        gl.glViewport(0, 0, width, height);
-        
-        // make adjustments for screen ratio
-        float ratio = (float) width / height;
-        gl.glMatrixMode(GL10.GL_PROJECTION);        // set matrix to projection mode
-        gl.glLoadIdentity();                        // reset the matrix to its default state
-        gl.glFrustumf(-ratio, ratio, -1, 1, 3, 7);  // apply the projection matrix
+    	// Sets the current view port to the new size.
+		gl.glViewport(0, 0, width, height);
+		// Select the projection matrix
+		gl.glMatrixMode(GL10.GL_PROJECTION);
+		// Reset the projection matrix
+		gl.glLoadIdentity();
+		// Calculate the aspect ratio of the window
+		GLU.gluPerspective(gl, 45.0f, (float) width / (float) height, 0.1f, 100.0f);
+		// Select the modelview matrix
+		gl.glMatrixMode(GL10.GL_MODELVIEW);
+		// Reset the modelview matrix
+		gl.glLoadIdentity();
     }
 }

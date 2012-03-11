@@ -10,14 +10,17 @@ public class HeroObject
 {
 	private FloatBuffer vertexBuffer;   // buffer holding the vertices
  
-	private float xPosition = -0.5f;
-	private float yPosition = -0.8f;
-	
+	private float xPosition = 0.0f;
+	private float yPosition = 0.0f;
 	private long timeOfLastJump = 0;
-	private float yPositionOfLastJump = -0.8f;
+	private float yPositionOfLastJump = 0.0f;
 	private boolean isFalling = false;
+	private float initialJumpVelocity = 3.5f;
 	
-	float initialJumpVelocity = 4.3f;
+	public float getInitialJumpVelocity()
+	{
+		return initialJumpVelocity;
+	}
 	
 	public void setIsFalling(boolean isFalling)
 	{
@@ -41,7 +44,7 @@ public class HeroObject
 	
 	public float getXPosition()
 	{
-		return this.xPosition;
+		return -xPosition;
 	}
 	
 	public void setXPosition(float xPosition)
@@ -61,16 +64,16 @@ public class HeroObject
 	
     private float vertices[] = 
     {
-	    -0.4f, -1.2f, 0,
-	    -0.6f, -1.2f, 0,
-	    -0.5f,  -1.0f, 0
+	    -0.1f, 0.0f, 0,
+	    0.1f, 0.0f, 0,
+	    0.0f,  0.2f, 0
     };
  
-    public long timeSinceLastJump()
+    public long getTimeSinceLastJump()
     {
     	if(timeOfLastJump == 0)
     	{
-    		jump(); //we're starting the game so make him jump.
+    		jump(0.0f); //we're starting the game so make him jump.
     		return 0;
     	}
     	else
@@ -79,9 +82,10 @@ public class HeroObject
     	}
     }
     
-    public void jump()
+    public void jump(float jumpPosition)
     {
     	timeOfLastJump = SystemClock.uptimeMillis();
+    	yPositionOfLastJump = jumpPosition;
     }
     
     public HeroObject() 
@@ -103,10 +107,10 @@ public class HeroObject
     /** The draw method for the square with the GL context */
     public void draw(GL10 gl) 
     {
-        //gl.glEnableClientState(GL10.GL_VERTEX_ARRAY);
+        gl.glEnableClientState(GL10.GL_VERTEX_ARRAY);
         
         // set the colour for the hero
-        gl.glColor4f(0.0f, 0.0f, 1.0f, 0.5f);
+        gl.glColor4f(0.0f, 0.8f, 0.0f, 0.5f);
  
         // Point to our vertex buffer
         gl.glVertexPointer(3, GL10.GL_FLOAT, 0, vertexBuffer);
@@ -115,6 +119,6 @@ public class HeroObject
         gl.glDrawArrays(GL10.GL_TRIANGLES, 0, vertices.length / 3);
  
         //Disable the client state before leaving
-        //gl.glDisableClientState(GL10.GL_VERTEX_ARRAY);
+        gl.glDisableClientState(GL10.GL_VERTEX_ARRAY);
     }
 }

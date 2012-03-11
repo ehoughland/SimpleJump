@@ -6,25 +6,17 @@ import java.nio.FloatBuffer;
 
 import javax.microedition.khronos.opengles.GL10;
 
-public class PlatformObject 
-{
+public class Square {
 	private FloatBuffer vertexBuffer;   // buffer holding the vertices
-	
-	public float getYPosition()
-	{
-		return vertices[4];
-	}
-	
-	public float getXPosition()
-	{
-		return (vertices[0] + vertices[6])/2f;
-	}
-	
-    private float vertices[];
  
-    public PlatformObject(float vertices[]) 
-    {
-    	this.vertices = vertices;
+    private float vertices[] = {
+            -0.1f,  0.0f,  0.0f,        // V1 - bottom left
+            -0.1f,  0.1f,  0.0f,        // V2 - top left
+             0.1f,  0.0f,  0.0f,        // V3 - bottom right
+             0.1f,  0.1f,  0.0f         // V4 - top right
+    };
+ 
+    public Square() {
         // a float has 4 bytes so we allocate for each coordinate 4 bytes
         ByteBuffer vertexByteBuffer = ByteBuffer.allocateDirect(vertices.length * 4);
         vertexByteBuffer.order(ByteOrder.nativeOrder());
@@ -40,12 +32,12 @@ public class PlatformObject
     }
  
     /** The draw method for the square with the GL context */
-    public void draw(GL10 gl) 
-    {
+    public void draw(GL10 gl) {
         gl.glEnableClientState(GL10.GL_VERTEX_ARRAY);
-        
+ 
+        gl.glTranslatef(0, 1.0f, 0);
         // set the colour for the square
-        gl.glColor4f(0.0f, 0.6f, 0.0f, 0.5f);
+        gl.glColor4f(0.0f, 1.0f, 0.0f, 0.5f);
  
         // Point to our vertex buffer
         gl.glVertexPointer(3, GL10.GL_FLOAT, 0, vertexBuffer);

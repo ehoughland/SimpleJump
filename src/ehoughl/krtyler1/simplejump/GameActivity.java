@@ -1,9 +1,5 @@
 package ehoughl.krtyler1.simplejump;
 
-import java.util.LinkedList;
-import java.util.PriorityQueue;
-import java.util.Queue;
-
 import android.app.Activity;
 import android.content.Context;
 import android.hardware.Sensor;
@@ -14,7 +10,6 @@ import android.opengl.GLSurfaceView;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.HandlerThread;
-import android.view.MotionEvent;
 
 public class GameActivity extends Activity 
 {
@@ -62,9 +57,6 @@ public class GameActivity extends Activity
 			Handler handler = new Handler(mHandlerThread.getLooper());
 			mSensorMgr.registerListener(this, mSensorMgr.getDefaultSensor(Sensor.TYPE_ACCELEROMETER),
 			                    SensorManager.SENSOR_DELAY_GAME, handler);
-			
-			// Render the view only when there is a change
-			//setRenderMode(GLSurfaceView.RENDERMODE_WHEN_DIRTY);
 		}
 
 		@Override
@@ -82,11 +74,11 @@ public class GameActivity extends Activity
 	        {
 	        	smoothedValue = smoothedValue + SMOOTHING_FACTOR * (event.values[0] - smoothedValue);
 	        	
-	        	queueEvent(new Runnable() 
+	        	queueEvent(new Runnable()
 	            {
-	                public void run() 
+	                public void run()
 	                {
-	                    renderer.tilt += smoothedValue/100f;
+	                    renderer.setTilt(smoothedValue/100f);
 	                }
 	            });
 	        }
