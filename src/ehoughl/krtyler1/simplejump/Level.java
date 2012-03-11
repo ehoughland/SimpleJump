@@ -6,7 +6,7 @@ import java.util.Random;
 public class Level 
 {
 	private ArrayList<PlatformObject> platformList = new ArrayList<PlatformObject>();
-	static final private int levels = 2;
+	static final private int levels = 50;
 	static final private float gravity = 0.005f;
 	
 	public Level()

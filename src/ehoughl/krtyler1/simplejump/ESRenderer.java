@@ -6,6 +6,7 @@ import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 import android.opengl.GLSurfaceView;
 import android.opengl.GLU;
+import android.util.Log;
 	
 public class ESRenderer implements GLSurfaceView.Renderer
 {	
@@ -14,6 +15,7 @@ public class ESRenderer implements GLSurfaceView.Renderer
 	ArrayList<PlatformObject> platforms = level.getPlatforms();
 	private float tilt = 0.0f;
 	private float angle = 0.0f;
+	private float camera = -0.75f;
 	
 	public void setTilt(float tilt)
 	{
@@ -41,18 +43,25 @@ public class ESRenderer implements GLSurfaceView.Renderer
     	// Redraw background color
         gl.glClear(GL10.GL_COLOR_BUFFER_BIT | GL10.GL_DEPTH_BUFFER_BIT);
         gl.glLoadIdentity();
-        gl.glTranslatef(0, 0, -4);
+        gl.glTranslatef(0,camera, -4);
         
         //draw platforms
     	for(PlatformObject p : platforms)
     	{
     		p.draw(gl);
     	}
-        
+    	
         float newHeroYPosition = ((hero.getInitialJumpVelocity() * hero.getTimeSinceLastJump()) 
         		- ((0.5f * (level.getGravity()) * (hero.getTimeSinceLastJump() * hero.getTimeSinceLastJump()))))/1000.0f 
         		+ hero.getYPositionOfLastJump();
-       
+        
+        //calculate position if he jumps higher than before and set camera y axis
+    	if(newHeroYPosition > hero.getMaxYPosition())
+    	{
+    		hero.setMaxYPosition(newHeroYPosition);
+    		camera = -hero.getMaxYPosition();
+    	}
+        
         //if his new position is less than his old position, we know he is falling
         if(hero.getYPosition() > newHeroYPosition)
         {
@@ -85,13 +94,12 @@ public class ESRenderer implements GLSurfaceView.Renderer
         {
 	        for(PlatformObject p : platforms)
 	        {
-	        	if(newHeroYPosition <= p.getYPosition() + 0.035f && newHeroYPosition >= p.getYPosition() - 0.035f)
+	        	if(newHeroYPosition <= p.getYPosition() + 0.04f && newHeroYPosition >= p.getYPosition() - 0.04f)
 	        	{
 	        		if(hero.getXPosition() <= p.getXPosition() + 0.3f && hero.getXPosition() >= p.getXPosition() - 0.3f)
 	        		{
 	        			gl.glPushMatrix();
 	        	        gl.glTranslatef(hero.getXPosition(), p.getYPosition(), 0.0f);
-	        	        //gl.glRotatef(angle, 0.0f, 1.0f, 0.0f);
 	        	        hero.jump(p.getYPosition());
 	        	        angle = 0;
 	        	        hero.setYPosition(p.getYPosition());
