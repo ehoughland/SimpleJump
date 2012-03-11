@@ -66,6 +66,7 @@ public class GameActivity extends Activity
 		}
 
 		float smoothedValue = 0.0f;
+		static final float SMOOTHING_FACTOR = 0.15f;
 		
 		@Override
 		public void onSensorChanged(SensorEvent event) 
@@ -83,7 +84,5 @@ public class GameActivity extends Activity
 	            });
 	        }
 		}
-		
-		static final float SMOOTHING_FACTOR = 0.15f;
 	}
 }

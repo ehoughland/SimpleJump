@@ -85,13 +85,12 @@ public class ESRenderer implements GLSurfaceView.Renderer
         {
 	        for(PlatformObject p : platforms)
 	        {
-	        	if(newHeroYPosition <= p.getYPosition() + 0.035f && newHeroYPosition >= p.getYPosition() - 0.035f)
+	        	if(newHeroYPosition <= p.getYPosition() + 0.04f && newHeroYPosition >= p.getYPosition() - 0.04f)
 	        	{
 	        		if(hero.getXPosition() <= p.getXPosition() + 0.3f && hero.getXPosition() >= p.getXPosition() - 0.3f)
 	        		{
 	        			gl.glPushMatrix();
 	        	        gl.glTranslatef(hero.getXPosition(), p.getYPosition(), 0.0f);
-	        	        //gl.glRotatef(angle, 0.0f, 1.0f, 0.0f);
 	        	        hero.jump(p.getYPosition());
 	        	        angle = 0;
 	        	        hero.setYPosition(p.getYPosition());

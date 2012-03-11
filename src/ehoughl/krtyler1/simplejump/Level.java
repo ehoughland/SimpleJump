@@ -6,7 +6,7 @@ import java.util.Random;
 public class Level 
 {
 	private ArrayList<PlatformObject> platformList = new ArrayList<PlatformObject>();
-	static final private int levels = 2;
+	static final private int levels = 8;
 	static final private float gravity = 0.005f;
 	
 	public Level()
@@ -26,14 +26,14 @@ public class Level
 	
 	public void generateLevel()
 	{
-		float start = -0.7f;
+		float start = -1.2f;
 		
 		for(int i = 0; i < levels; i++)
 		{
 			float[] vertices = vertice(start);
 			PlatformObject po = new PlatformObject(vertices);
 			platformList.add(po);
-			start += 1.0f;
+			start += 0.6f;
 		}
 	}
 	
@@ -59,5 +59,4 @@ public class Level
 		
 		return vertices;
 	}
-	
 }
