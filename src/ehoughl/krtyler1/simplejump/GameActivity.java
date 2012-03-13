@@ -2,6 +2,8 @@ package ehoughl.krtyler1.simplejump;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -48,7 +50,9 @@ public class GameActivity extends Activity
 		{
 			super(context);
 			// Set the Renderer for drawing on the GLSurfaceView
-			renderer = new ESRenderer();
+			
+			Bitmap platformBmp = BitmapFactory.decodeResource(getResources(), R.drawable.platform);
+			renderer = new ESRenderer(platformBmp);
 			setRenderer(renderer);
 			
 			SensorManager mSensorMgr = (SensorManager) getSystemService(Context.SENSOR_SERVICE);

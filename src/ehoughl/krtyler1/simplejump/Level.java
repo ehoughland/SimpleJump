@@ -3,14 +3,18 @@ package ehoughl.krtyler1.simplejump;
 import java.util.ArrayList;
 import java.util.Random;
 
+import android.graphics.Bitmap;
+
 public class Level 
 {
 	private ArrayList<PlatformObject> platformList = new ArrayList<PlatformObject>();
-	static final private int levels = 8;
+	private Bitmap platformBmp;
+	static final private int levels = 50;
 	static final private float gravity = 0.005f;
 	
-	public Level()
+	public Level(Bitmap platformBmp)
 	{
+		this.platformBmp = platformBmp;
 		generateLevel();
 	}
 	
@@ -31,7 +35,8 @@ public class Level
 		for(int i = 0; i < levels; i++)
 		{
 			float[] vertices = vertice(start);
-			PlatformObject po = new PlatformObject(vertices);
+			PlatformObject po = new PlatformObject(vertices, platformBmp);
+			po.loadBitmap(platformBmp);
 			platformList.add(po);
 			start += 0.6f;
 		}

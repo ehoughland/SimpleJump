@@ -16,6 +16,7 @@ public class HeroObject
 	private float yPositionOfLastJump = 0.0f;
 	private boolean isFalling = false;
 	private float initialJumpVelocity = 3.5f;
+	private float maxYPosition = 0f;//1.2249975f; // hero starting at 0 + jump length
 	
 	public float getInitialJumpVelocity()
 	{
@@ -60,6 +61,16 @@ public class HeroObject
 	public void setYPosition(float yPosition)
 	{
 		this.yPosition = yPosition;
+	}
+	
+	public float getMaxYPosition()
+	{
+		return this.maxYPosition;
+	}
+	
+	public void setMaxYPosition(float maxYPosition)
+	{
+		this.maxYPosition = maxYPosition;
 	}
 	
     private float vertices[] = 
@@ -110,7 +121,7 @@ public class HeroObject
         gl.glEnableClientState(GL10.GL_VERTEX_ARRAY);
         
         // set the colour for the hero
-        gl.glColor4f(0.0f, 0.8f, 0.0f, 0.5f);
+        gl.glColor4f(1.0f, 1.0f, 1.0f, 0.5f);
  
         // Point to our vertex buffer
         gl.glVertexPointer(3, GL10.GL_FLOAT, 0, vertexBuffer);

@@ -4,16 +4,28 @@ import java.util.ArrayList;
 
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
+
+import android.graphics.Bitmap;
 import android.opengl.GLSurfaceView;
 import android.opengl.GLU;
+import android.util.Log;
 	
 public class ESRenderer implements GLSurfaceView.Renderer
 {	
-	Level level = new Level();
 	HeroObject hero = new HeroObject();
-	ArrayList<PlatformObject> platforms = level.getPlatforms();
 	private float tilt = 0.0f;
 	private float angle = 0.0f;
+	private float camera = -0.75f;
+	private Bitmap platformBmp;
+	ArrayList<PlatformObject> platforms;
+	Level level;
+	
+	public ESRenderer(Bitmap platformBmp)
+	{
+		this.platformBmp = platformBmp;
+		level = new Level(platformBmp);
+		platforms = level.getPlatforms();
+	}
 	
 	public void setTilt(float tilt)
 	{
@@ -23,7 +35,7 @@ public class ESRenderer implements GLSurfaceView.Renderer
 	public void onSurfaceCreated(GL10 gl, EGLConfig config) 
 	{
 		// Set the background color to black ( rgba ).
-		gl.glClearColor(0.0f, 0.0f, 0.7f, 0.5f);  
+		gl.glClearColor(0.3f, 0.5f, 0.8f, 0.5f);  
 		// Enable Smooth Shading, default not really needed.
 		gl.glShadeModel(GL10.GL_SMOOTH);
 		// Depth buffer setup.
@@ -41,18 +53,25 @@ public class ESRenderer implements GLSurfaceView.Renderer
     	// Redraw background color
         gl.glClear(GL10.GL_COLOR_BUFFER_BIT | GL10.GL_DEPTH_BUFFER_BIT);
         gl.glLoadIdentity();
-        gl.glTranslatef(0, 0, -4);
+        gl.glTranslatef(0,camera, -4);
         
         //draw platforms
     	for(PlatformObject p : platforms)
     	{
     		p.draw(gl);
     	}
-        
+    	
         float newHeroYPosition = ((hero.getInitialJumpVelocity() * hero.getTimeSinceLastJump()) 
         		- ((0.5f * (level.getGravity()) * (hero.getTimeSinceLastJump() * hero.getTimeSinceLastJump()))))/1000.0f 
         		+ hero.getYPositionOfLastJump();
-       
+        
+        //calculate position if he jumps higher than before and set camera y axis
+    	if(newHeroYPosition > hero.getMaxYPosition())
+    	{
+    		hero.setMaxYPosition(newHeroYPosition);
+    		camera = -hero.getMaxYPosition();
+    	}
+        
         //if his new position is less than his old position, we know he is falling
         if(hero.getYPosition() > newHeroYPosition)
         {
