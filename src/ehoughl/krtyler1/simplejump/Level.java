@@ -42,9 +42,15 @@ public class Level
 		}
 	}
 	
-	public void addPlatforms(int numberToAdd)
+	public void addPlatforms(int numberToAdd, float startPoint)
 	{
-		float start = -1.2f;
+		float start = startPoint;
+		
+//		platformList.remove(0);
+//		platformList.remove(1);
+//		platformList.remove(2);
+//		platformList.remove(3);
+//		platformList.remove(4);
 		
 		for(int i = levels; i < levels + numberToAdd; i++)
 		{

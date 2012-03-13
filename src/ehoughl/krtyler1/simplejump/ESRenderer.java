@@ -16,15 +16,22 @@ public class ESRenderer implements GLSurfaceView.Renderer
 	private float tilt = 0.0f;
 	private float angle = 0.0f;
 	private float camera = -0.75f;
-	private Bitmap platformBmp;
 	ArrayList<PlatformObject> platforms;
 	Level level;
+	float highestPlatform = 0.0f;
 	
 	public ESRenderer(Bitmap platformBmp)
 	{
-		this.platformBmp = platformBmp;
 		level = new Level(platformBmp);
 		platforms = level.getPlatforms();
+		
+		for(PlatformObject p : platforms)
+		{
+			if(highestPlatform < p.getYPosition())
+			{
+				highestPlatform = p.getYPosition();
+			}
+		}
 	}
 	
 	public void setTilt(float tilt)
@@ -60,7 +67,7 @@ public class ESRenderer implements GLSurfaceView.Renderer
     	{
     		p.draw(gl);
     	}
-    	
+    	 
         float newHeroYPosition = ((hero.getInitialJumpVelocity() * hero.getTimeSinceLastJump()) 
         		- ((0.5f * (level.getGravity()) * (hero.getTimeSinceLastJump() * hero.getTimeSinceLastJump()))))/1000.0f 
         		+ hero.getYPositionOfLastJump();
@@ -70,6 +77,12 @@ public class ESRenderer implements GLSurfaceView.Renderer
     	{
     		hero.setMaxYPosition(newHeroYPosition);
     		camera = -hero.getMaxYPosition();
+    		
+    		if(-camera + 1.5f > highestPlatform)
+    		{
+    			level.addPlatforms(5, highestPlatform + 0.6f);
+    			platforms = level.getPlatforms();
+    		}
     	}
         
         //if his new position is less than his old position, we know he is falling
