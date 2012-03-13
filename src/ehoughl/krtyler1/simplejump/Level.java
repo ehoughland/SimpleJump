@@ -9,7 +9,7 @@ public class Level
 {
 	private ArrayList<PlatformObject> platformList = new ArrayList<PlatformObject>();
 	private Bitmap platformBmp;
-	static final private int levels = 15;
+	private int levels = 15;
 	static final private float gravity = 0.005f;
 	
 	public Level(Bitmap platformBmp)
@@ -42,11 +42,11 @@ public class Level
 		}
 	}
 	
-	public void addPlatforms()
+	public void addPlatforms(int numberToAdd)
 	{
 		float start = -1.2f;
 		
-		for(int i = levels; i < levels + levels; i++)
+		for(int i = levels; i < levels + numberToAdd; i++)
 		{
 			float[] vertices = vertice(start);
 			PlatformObject po = new PlatformObject(vertices, platformBmp);
@@ -54,6 +54,8 @@ public class Level
 			platformList.add(po);
 			start += 0.6f;
 		}
+		
+		levels += numberToAdd;
 	}
 	
 	public float[] vertice (float y)
