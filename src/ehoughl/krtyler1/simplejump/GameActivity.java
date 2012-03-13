@@ -23,7 +23,7 @@ public class GameActivity extends Activity
 		super.onCreate(savedInstanceState);
 		// Create a GLSurfaceView instance and set it
 		// as the ContentView for this Activity.
-		mGLView = new ESSurfaceView(this);
+		mGLView = new ESSurfaceView(this, GameActivity.this);
 		
 		getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 		
@@ -46,11 +46,16 @@ public class GameActivity extends Activity
 		mGLView.onResume();
 	}
 	
+	public void endGame()
+	{
+		this.finish();
+	}
+	
 	class ESSurfaceView extends GLSurfaceView implements SensorEventListener
 	{
 		private ESRenderer renderer;
 		
-		public ESSurfaceView(Context context)
+		public ESSurfaceView(Context context, GameActivity game)
 		{
 			super(context);
 			// Set the Renderer for drawing on the GLSurfaceView
@@ -58,7 +63,7 @@ public class GameActivity extends Activity
 			Bitmap platformBmp = BitmapFactory.decodeResource(getResources(), R.drawable.platform);
 			Bitmap heroBmp = BitmapFactory.decodeResource(getResources(), R.drawable.hero);
 			
-			renderer = new ESRenderer(platformBmp, heroBmp);
+			renderer = new ESRenderer(platformBmp, heroBmp, game);
 			setRenderer(renderer);
 			
 			SensorManager mSensorMgr = (SensorManager) getSystemService(Context.SENSOR_SERVICE);

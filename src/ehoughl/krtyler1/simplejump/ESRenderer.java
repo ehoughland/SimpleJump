@@ -19,13 +19,14 @@ public class ESRenderer implements GLSurfaceView.Renderer
 	ArrayList<PlatformObject> platforms;
 	Level level;
 	float highestPlatform = 0.0f;
+	GameActivity game;
 	
-	public ESRenderer(Bitmap platformBmp, Bitmap heroBmp)
+	public ESRenderer(Bitmap platformBmp, Bitmap heroBmp, GameActivity game)
 	{
 		level = new Level(platformBmp);
 		platforms = level.getPlatforms();
 		hero = new HeroObject(heroBmp);
-		
+		this.game = game;
 		for(PlatformObject p : platforms)
 		{
 			if(highestPlatform < p.getYPosition())
@@ -72,6 +73,11 @@ public class ESRenderer implements GLSurfaceView.Renderer
         float newHeroYPosition = ((hero.getInitialJumpVelocity() * hero.getTimeSinceLastJump()) 
         		- ((0.5f * (level.getGravity()) * (hero.getTimeSinceLastJump() * hero.getTimeSinceLastJump()))))/1000.0f 
         		+ hero.getYPositionOfLastJump();
+        
+        if(hero.getYPosition() <= hero.getMaxYPosition()-1.6249975f)
+    	{
+        	game.endGame();
+    	}
         
         //calculate position if he jumps higher than before and set camera y axis
     	if(newHeroYPosition > hero.getMaxYPosition())
