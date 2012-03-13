@@ -46,11 +46,10 @@ public class Level
 	{
 		float start = startPoint;
 		
-//		platformList.remove(0);
-//		platformList.remove(1);
-//		platformList.remove(2);
-//		platformList.remove(3);
-//		platformList.remove(4);
+		for(int i = 0; i < numberToAdd; i++)
+		{
+			platformList.remove(i);
+		}
 		
 		for(int i = levels; i < levels + numberToAdd; i++)
 		{

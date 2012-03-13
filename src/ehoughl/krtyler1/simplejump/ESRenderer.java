@@ -82,6 +82,14 @@ public class ESRenderer implements GLSurfaceView.Renderer
     		{
     			level.addPlatforms(5, highestPlatform + 0.6f);
     			platforms = level.getPlatforms();
+    			
+    			for(PlatformObject p : platforms)
+    			{
+    				if(highestPlatform < p.getYPosition())
+    				{
+    					highestPlatform = p.getYPosition();
+    				}
+    			}
     		}
     	}
         

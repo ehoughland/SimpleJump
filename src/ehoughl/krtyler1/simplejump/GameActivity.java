@@ -12,6 +12,7 @@ import android.opengl.GLSurfaceView;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.HandlerThread;
+import android.view.WindowManager;
 
 public class GameActivity extends Activity 
 {
@@ -23,6 +24,9 @@ public class GameActivity extends Activity
 		// Create a GLSurfaceView instance and set it
 		// as the ContentView for this Activity.
 		mGLView = new ESSurfaceView(this);
+		
+		getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+		
 		setContentView(mGLView);
 	}
 	
