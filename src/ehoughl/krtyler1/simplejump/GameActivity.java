@@ -56,7 +56,9 @@ public class GameActivity extends Activity
 			// Set the Renderer for drawing on the GLSurfaceView
 			
 			Bitmap platformBmp = BitmapFactory.decodeResource(getResources(), R.drawable.platform);
-			renderer = new ESRenderer(platformBmp);
+			Bitmap heroBmp = BitmapFactory.decodeResource(getResources(), R.drawable.hero);
+			
+			renderer = new ESRenderer(platformBmp, heroBmp);
 			setRenderer(renderer);
 			
 			SensorManager mSensorMgr = (SensorManager) getSystemService(Context.SENSOR_SERVICE);

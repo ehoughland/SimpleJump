@@ -12,7 +12,7 @@ import android.util.Log;
 	
 public class ESRenderer implements GLSurfaceView.Renderer
 {	
-	HeroObject hero = new HeroObject();
+	HeroObject hero;
 	private float tilt = 0.0f;
 	private float angle = 0.0f;
 	private float camera = -0.75f;
@@ -20,10 +20,11 @@ public class ESRenderer implements GLSurfaceView.Renderer
 	Level level;
 	float highestPlatform = 0.0f;
 	
-	public ESRenderer(Bitmap platformBmp)
+	public ESRenderer(Bitmap platformBmp, Bitmap heroBmp)
 	{
 		level = new Level(platformBmp);
 		platforms = level.getPlatforms();
+		hero = new HeroObject(heroBmp);
 		
 		for(PlatformObject p : platforms)
 		{
