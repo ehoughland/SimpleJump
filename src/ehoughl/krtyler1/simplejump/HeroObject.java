@@ -78,10 +78,11 @@ public class HeroObject
 	
     private float vertices[] = 
     {
+    		0.1f,  0.2f, 0,
 	    -0.1f, 0.0f, 0,
 	    0.1f, 0.0f, 0,
-	    -0.1f,  0.2f, 0,
-	    0.1f,  0.2f, 0
+	    -0.1f,  0.2f, 0
+	    
     };
  
     public long getTimeSinceLastJump()
