@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TableLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/tableLayout1"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:shrinkColumns="*"
+    android:stretchColumns="*">
+    <TableRow
+        android:id="@+id/tr1"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:gravity="center_horizontal">
+        <TextView
+            android:id="@+id/tvGameOver"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:typeface="serif"
+            android:textSize="18dp"
+            android:text="Game Over"
+            android:gravity="center"
+            android:layout_span="7"></TextView>
+    </TableRow>
+    
+     <TableRow
+        android:id="@+id/tableRow1"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent">
+		<TextView
+            android:id="@+id/textView1" >
+	    </TextView>
+        
+		<Button 
+	        android:id="@+id/restartButton"
+	        android:gravity="center_horizontal"
+	        android:onClick="restartGame"
+	        android:text="Start Over"
+	        android:layout_span="2" >
+	    </Button>
+	    <TextView
+            android:id="@+id/textView2" >
+	    </TextView>
+	    <Button 
+	        android:id="@+id/quitButton"
+	        android:gravity="center_horizontal"
+	        android:onClick="quitGame"
+	        android:text="Exit"
+	        android:layout_span="2" >
+	    </Button>
+        <TextView
+            android:id="@+id/textView3" >
+	    </TextView>        	    
+    </TableRow>
+    <TableRow
+        android:layout_height="wrap_content"
+        android:id="@+id/tr2"
+        android:layout_width="match_parent">
+        <TextView
+            android:id="@+id/textView4" >
+	    </TextView>
+		<TextView
+	        android:id="@+id/scoreText"
+	        android:layout_span="5"
+	        android:text="Score"
+	        android:background="@drawable/back" >
+		</TextView>
+		<TextView
+            android:id="@+id/textView5" >
+	</TextView>	        
+	</TableRow>
+	<TableRow
+        android:layout_height="wrap_content"
+        android:id="@+id/tr3"
+        android:layout_width="match_parent">
+        <TextView
+            android:id="@+id/textView6" >
+	    </TextView>
+		<TextView
+	        android:id="@+id/score"
+	        android:layout_span="5"
+	        android:background="@drawable/back" >
+		</TextView>
+		<TextView
+            android:id="@+id/textView7" >
+	</TextView>	        
+	</TableRow>
+</TableLayout>

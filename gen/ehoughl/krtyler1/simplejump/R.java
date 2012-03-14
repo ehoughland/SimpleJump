@@ -11,16 +11,31 @@ public final class R {
     public static final class attr {
     }
     public static final class drawable {
-        public static final int hero=0x7f020000;
-        public static final int ic_launcher=0x7f020001;
-        public static final int platform=0x7f020002;
+        public static final int back=0x7f020000;
+        public static final int hero=0x7f020001;
+        public static final int ic_launcher=0x7f020002;
+        public static final int platform=0x7f020003;
     }
     public static final class id {
-        public static final int gameView=0x7f050003;
-        public static final int quitButton=0x7f050001;
-        public static final int restartButton=0x7f050000;
-        public static final int score=0x7f050002;
-        public static final int startButton=0x7f050004;
+        public static final int gameView=0x7f050011;
+        public static final int quitButton=0x7f050007;
+        public static final int restartButton=0x7f050005;
+        public static final int score=0x7f05000f;
+        public static final int scoreText=0x7f05000b;
+        public static final int startButton=0x7f050012;
+        public static final int tableLayout1=0x7f050000;
+        public static final int tableRow1=0x7f050003;
+        public static final int textView1=0x7f050004;
+        public static final int textView2=0x7f050006;
+        public static final int textView3=0x7f050008;
+        public static final int textView4=0x7f05000a;
+        public static final int textView5=0x7f05000c;
+        public static final int textView6=0x7f05000e;
+        public static final int textView7=0x7f050010;
+        public static final int tr1=0x7f050001;
+        public static final int tr2=0x7f050009;
+        public static final int tr3=0x7f05000d;
+        public static final int tvGameOver=0x7f050002;
     }
     public static final class layout {
         public static final int game_over=0x7f030000;
