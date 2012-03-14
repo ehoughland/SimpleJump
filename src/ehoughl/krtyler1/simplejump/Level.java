@@ -63,7 +63,7 @@ public class Level
 			CloudObject c = new CloudObject(vertices);
 			c.loadBitmap(cloudBmp);
 			cloudList.add(c);
-			cloudStartY += 0.6f + (float)r.nextInt(1001)/1000.0f;;
+			cloudStartY += 0.8f + (float)r.nextInt(1401)/1000.0f;;
 		}
 	}
 	

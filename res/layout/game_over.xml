@@ -5,28 +5,43 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:shrinkColumns="*"
-    android:stretchColumns="*">
+    android:stretchColumns="*"
+    android:background="#d0d0d0" >"
+    <TableRow
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:gravity="center_horizontal"
+        android:padding="40dip" >
+    </TableRow>
     <TableRow
         android:id="@+id/tr1"
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
-        android:gravity="center_horizontal">
+        android:gravity="center_horizontal"
+        android:padding="40dip" >
         <TextView
             android:id="@+id/tvGameOver"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textStyle="bold"
             android:typeface="serif"
-            android:textSize="18dp"
+            android:textSize="38dp"
+            android:textColor="#505050"
             android:text="Game Over"
             android:gravity="center"
-            android:layout_span="7"></TextView>
+            android:layout_span="6"></TextView>
     </TableRow>
-    
-     <TableRow
+    <TableRow
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:gravity="center_horizontal"
+        android:padding="25dip" >
+    </TableRow>
+    <TableRow
         android:id="@+id/tableRow1"
         android:layout_height="wrap_content"
-        android:layout_width="match_parent">
+        android:layout_width="match_parent"
+        android:padding="1dip" >
 		<TextView
             android:id="@+id/textView1" >
 	    </TextView>
@@ -34,18 +49,23 @@
 		<Button 
 	        android:id="@+id/restartButton"
 	        android:gravity="center_horizontal"
+	        android:padding="10dip"
 	        android:onClick="restartGame"
 	        android:text="Start Over"
+	        android:background="@drawable/blue_button"
+	        android:textColor="@android:color/white"
+	        android:textSize="16dp"
 	        android:layout_span="2" >
 	    </Button>
-	    <TextView
-            android:id="@+id/textView2" >
-	    </TextView>
 	    <Button 
 	        android:id="@+id/quitButton"
 	        android:gravity="center_horizontal"
+	        android:padding="10dip"
 	        android:onClick="quitGame"
 	        android:text="Exit"
+	        android:background="@drawable/green_button"
+	        android:textColor="@android:color/white"
+	        android:textSize="16dp"
 	        android:layout_span="2" >
 	    </Button>
         <TextView
@@ -55,15 +75,21 @@
     <TableRow
         android:layout_height="wrap_content"
         android:id="@+id/tr2"
-        android:layout_width="match_parent">
+        android:layout_width="match_parent"
+        android:padding="1dip" >
         <TextView
             android:id="@+id/textView4" >
 	    </TextView>
 		<TextView
 	        android:id="@+id/scoreText"
-	        android:layout_span="5"
+	        android:layout_span="4"
+	        android:padding="10dip"
 	        android:text="Score"
-	        android:background="@drawable/back" >
+	        android:textStyle="bold"
+            android:typeface="serif"
+            android:textSize="18dp"
+            android:textColor="#33b5e5"
+            android:background="@android:color/white" >
 		</TextView>
 		<TextView
             android:id="@+id/textView5" >
@@ -72,14 +98,20 @@
 	<TableRow
         android:layout_height="wrap_content"
         android:id="@+id/tr3"
-        android:layout_width="match_parent">
+        android:layout_width="match_parent"
+        android:padding="1dip" >
         <TextView
             android:id="@+id/textView6" >
 	    </TextView>
 		<TextView
 	        android:id="@+id/score"
-	        android:layout_span="5"
-	        android:background="@drawable/back" >
+	        android:layout_span="4"
+	        android:padding="10dip"
+	        android:textStyle="bold"
+            android:typeface="serif"
+            android:textSize="18dp"
+            android:textColor="#99cc00"
+            android:background="@android:color/white" >
 		</TextView>
 		<TextView
             android:id="@+id/textView7" >
