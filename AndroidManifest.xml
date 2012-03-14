@@ -25,6 +25,12 @@
             android:configChanges="orientation"
             android:screenOrientation="portrait" >
         </activity>
+        <activity
+            android:name="ehoughl.krtyler1.simplejump.EndGame"
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait" >
+        </activity>
         
     </application>
 

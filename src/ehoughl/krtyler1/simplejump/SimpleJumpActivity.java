@@ -19,5 +19,6 @@ public class SimpleJumpActivity extends Activity
     public void startGame(View view)
     {
     	startActivity(new Intent(getApplicationContext(), GameActivity.class));
+    	finish();
     }
 }

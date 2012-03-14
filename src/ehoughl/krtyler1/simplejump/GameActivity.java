@@ -2,6 +2,7 @@ package ehoughl.krtyler1.simplejump;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.hardware.Sensor;
@@ -46,8 +47,13 @@ public class GameActivity extends Activity
 		mGLView.onResume();
 	}
 	
-	public void endGame()
+	public void endGame(int score)
 	{
+		Intent intent = new Intent(GameActivity.this, EndGame.class);
+		Bundle bundle = new Bundle();
+		bundle.putString("gameScore", String.valueOf(score));
+		intent.putExtras(bundle);
+		startActivity(intent);
 		this.finish();
 	}
 	
@@ -63,8 +69,6 @@ public class GameActivity extends Activity
 			Bitmap platformBmp = BitmapFactory.decodeResource(getResources(), R.drawable.platform);
 			Bitmap heroBmp = BitmapFactory.decodeResource(getResources(), R.drawable.hero);
 			Bitmap cloudBmp = BitmapFactory.decodeResource(getResources(), R.drawable.cloud1);
-			//Bitmap cloud2Bmp = BitmapFactory.decodeResource(getResources(), R.drawable.cloud2);
-			//Bitmap cloud3Bmp = BitmapFactory.decodeResource(getResources(), R.drawable.cloud3);
 			
 			renderer = new ESRenderer(platformBmp, heroBmp, cloudBmp, game);
 			setRenderer(renderer);
