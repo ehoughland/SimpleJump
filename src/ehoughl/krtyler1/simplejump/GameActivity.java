@@ -62,8 +62,11 @@ public class GameActivity extends Activity
 			
 			Bitmap platformBmp = BitmapFactory.decodeResource(getResources(), R.drawable.platform);
 			Bitmap heroBmp = BitmapFactory.decodeResource(getResources(), R.drawable.hero);
+			Bitmap cloudBmp = BitmapFactory.decodeResource(getResources(), R.drawable.cloud1);
+			//Bitmap cloud2Bmp = BitmapFactory.decodeResource(getResources(), R.drawable.cloud2);
+			//Bitmap cloud3Bmp = BitmapFactory.decodeResource(getResources(), R.drawable.cloud3);
 			
-			renderer = new ESRenderer(platformBmp, heroBmp, game);
+			renderer = new ESRenderer(platformBmp, heroBmp, cloudBmp, game);
 			setRenderer(renderer);
 			
 			SensorManager mSensorMgr = (SensorManager) getSystemService(Context.SENSOR_SERVICE);

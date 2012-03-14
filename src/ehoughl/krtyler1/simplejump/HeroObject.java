@@ -19,7 +19,7 @@ public class HeroObject
 	private float yPositionOfLastJump = 0.0f;
 	private boolean isFalling = false;
 	private float initialJumpVelocity = 3.5f;
-	private float maxYPosition = 0f;//1.2249975f; // hero starting at 0 + jump length
+	private float maxYPosition = 0f;
 	
 	public float getInitialJumpVelocity()
 	{
@@ -78,10 +78,10 @@ public class HeroObject
 	
     private float vertices[] = 
     {
-	    -0.125f, 0.0f, 0,
-	    0.125f, 0.0f, 0,
-	    -0.125f,  0.25f, 0,
-	    0.125f,  0.25f, 0
+	    -0.14f, 0.0f, 0,
+	    0.14f, 0.0f, 0,
+	    -0.14f,  0.27f, 0,
+	    0.14f,  0.27f, 0
     };
  
     public long getTimeSinceLastJump()

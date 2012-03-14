@@ -8,13 +8,16 @@ import android.graphics.Bitmap;
 public class Level 
 {
 	private ArrayList<PlatformObject> platformList = new ArrayList<PlatformObject>();
+	private ArrayList<CloudObject> cloudList = new ArrayList<CloudObject>();
 	private Bitmap platformBmp;
+	private Bitmap cloudBmp;
 	private int levels = 15;
 	static final private float gravity = 0.005f;
 	
-	public Level(Bitmap platformBmp)
+	public Level(Bitmap platformBmp, Bitmap cloudBmp)
 	{
 		this.platformBmp = platformBmp;
+		this.cloudBmp = cloudBmp;
 		generateLevel();
 	}
 	
@@ -28,6 +31,11 @@ public class Level
 		return platformList;
 	}
 	
+	public ArrayList<CloudObject> getClouds ()
+	{
+		return cloudList;
+	}
+	
 	public void generateLevel()
 	{
 		float start = -1.2f;
@@ -35,11 +43,51 @@ public class Level
 		for(int i = 0; i < levels; i++)
 		{
 			float[] vertices = vertice(start);
-			PlatformObject po = new PlatformObject(vertices, platformBmp);
+			PlatformObject po = new PlatformObject(vertices);
 			po.loadBitmap(platformBmp);
 			platformList.add(po);
 			start += 0.6f;
 		}
+		
+		Random r = new Random();
+		float cloudStartY = (float)r.nextInt(1601)/1000.0f;
+		cloudStartY -= 1;
+		
+		Random r2 = new Random();
+		int numberOfClouds = r2.nextInt(25);
+		numberOfClouds += 5;
+		
+		for(int i = 0; i < numberOfClouds; i++)
+		{
+			float[] vertices = cloudVertice(cloudStartY);
+			CloudObject c = new CloudObject(vertices);
+			c.loadBitmap(cloudBmp);
+			cloudList.add(c);
+			cloudStartY += 0.6f + (float)r.nextInt(1001)/1000.0f;;
+		}
+	}
+	
+	public float[] cloudVertice (float y)
+	{
+		Random r = new Random();
+		float rand = (float)r.nextInt(1601)/1000.0f;
+		rand -= 1;
+		
+		float x1 = rand;
+		float x2 = x1 + 0.9f;
+		float y1 = y;
+		float y2 = y1 + 0.45f;
+		float z = -2f;
+		
+		float vertices[] = 
+	    {
+            x1,  y1,  z,        // V1 - bottom left
+            x1,  y2,  z,        // V2 - top left
+            x2,  y1,  z,        // V3 - top right
+            x2,  y2,  z         // V4 - bottom right
+	    };
+		
+		return vertices;
 	}
 	
 	public void addPlatforms(int numberToAdd, float startPoint)
@@ -54,7 +102,7 @@ public class Level
 		for(int i = levels; i < levels + numberToAdd; i++)
 		{
 			float[] vertices = vertice(start);
-			PlatformObject po = new PlatformObject(vertices, platformBmp);
+			PlatformObject po = new PlatformObject(vertices);
 			po.loadBitmap(platformBmp);
 			platformList.add(po);
 			start += 0.6f;

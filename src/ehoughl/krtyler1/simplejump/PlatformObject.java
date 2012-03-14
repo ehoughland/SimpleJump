@@ -4,10 +4,8 @@ import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.FloatBuffer;
 import java.nio.ShortBuffer;
-
 import javax.microedition.khronos.opengles.GL10;
 import android.graphics.Bitmap;
-import android.graphics.Color;
 import android.opengl.GLUtils;
 
 public class PlatformObject 
@@ -24,7 +22,7 @@ public class PlatformObject
 	
     private float vertices[];
  
-    public PlatformObject(float vertices[], Bitmap platformBmp) 
+    public PlatformObject(float vertices[]) 
     {	
     	// Mapping coordinates for the vertices
 		float textureCoordinates[] = 

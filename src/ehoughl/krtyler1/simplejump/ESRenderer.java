@@ -1,18 +1,16 @@
 package ehoughl.krtyler1.simplejump;
 
 import java.util.ArrayList;
-
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
-
 import android.graphics.Bitmap;
 import android.opengl.GLSurfaceView;
 import android.opengl.GLU;
-import android.util.Log;
 	
 public class ESRenderer implements GLSurfaceView.Renderer
 {	
 	HeroObject hero;
+	ArrayList<CloudObject> clouds;
 	private float tilt = 0.0f;
 	private float angle = 0.0f;
 	private float camera = -0.75f;
@@ -20,12 +18,14 @@ public class ESRenderer implements GLSurfaceView.Renderer
 	Level level;
 	float highestPlatform = 0.0f;
 	GameActivity game;
-	
-	public ESRenderer(Bitmap platformBmp, Bitmap heroBmp, GameActivity game)
+
+	public ESRenderer(Bitmap platformBmp, Bitmap heroBmp, Bitmap cloudBmp, GameActivity game)
 	{
-		level = new Level(platformBmp);
+		level = new Level(platformBmp, cloudBmp);
 		platforms = level.getPlatforms();
+		clouds = level.getClouds();
 		hero = new HeroObject(heroBmp);
+		
 		this.game = game;
 		for(PlatformObject p : platforms)
 		{
@@ -43,8 +43,7 @@ public class ESRenderer implements GLSurfaceView.Renderer
 	
 	public void onSurfaceCreated(GL10 gl, EGLConfig config) 
 	{
-		// Set the background color to black ( rgba ).
-		gl.glClearColor(0.3f, 0.5f, 0.8f, 0.5f);  
+		gl.glClearColor(0.3f, 0.5f, 0.9f, 0.5f);  
 		// Enable Smooth Shading, default not really needed.
 		gl.glShadeModel(GL10.GL_SMOOTH);
 		// Depth buffer setup.
@@ -63,6 +62,11 @@ public class ESRenderer implements GLSurfaceView.Renderer
         gl.glClear(GL10.GL_COLOR_BUFFER_BIT | GL10.GL_DEPTH_BUFFER_BIT);
         gl.glLoadIdentity();
         gl.glTranslatef(0,camera, -4);
+        
+    	for(CloudObject c : clouds)
+    	{
+    		c.draw(gl);
+    	}
         
         //draw platforms
     	for(PlatformObject p : platforms)
