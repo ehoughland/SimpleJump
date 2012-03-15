@@ -12,6 +12,11 @@ public class CloudObject
 {
     private float vertices[];
     
+	public float getYPosition()
+	{
+		return vertices[4];
+	}
+    
     public CloudObject(float vertices[]) 
     {
     	this.vertices = vertices;

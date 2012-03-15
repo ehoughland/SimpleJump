@@ -53,9 +53,9 @@ public class Level
 		float cloudStartY = (float)r.nextInt(1601)/1000.0f;
 		cloudStartY -= 1;
 		
-		Random r2 = new Random();
-		int numberOfClouds = r2.nextInt(25);
-		numberOfClouds += 5;
+		//Random r2 = new Random();
+		//int numberOfClouds = r2.nextInt(25);
+		int numberOfClouds = 15;
 		
 		for(int i = 0; i < numberOfClouds; i++)
 		{
@@ -63,7 +63,7 @@ public class Level
 			CloudObject c = new CloudObject(vertices);
 			c.loadBitmap(cloudBmp);
 			cloudList.add(c);
-			cloudStartY += 0.6f + (float)r.nextInt(1001)/1000.0f;;
+			cloudStartY += 1.1f + (float)r.nextInt(1801)/1000.0f;
 		}
 	}
 	
@@ -90,22 +90,40 @@ public class Level
 		return vertices;
 	}
 	
-	public void addPlatforms(int numberToAdd, float startPoint)
+	public void addPlatforms(int numberToAdd, float startPoint, float cloudStartPoint)
 	{
 		float start = startPoint;
 		
 		for(int i = 0; i < numberToAdd; i++)
 		{
 			platformList.remove(i);
+			//cloudList.remove(i);
 		}
 		
-		for(int i = levels; i < levels + numberToAdd; i++)
+		for(int i = 0; i < numberToAdd; i++)
 		{
 			float[] vertices = vertice(start);
 			PlatformObject po = new PlatformObject(vertices);
 			po.loadBitmap(platformBmp);
 			platformList.add(po);
 			start += 0.6f;
+		}
+		
+		Random r = new Random();
+		float cloudStartY = cloudStartPoint += (float)r.nextInt(1601)/1000.0f;
+		cloudStartY -= 1;
+		
+		//Random r2 = new Random();
+		//int numberOfClouds = r2.nextInt(25);
+		int numberOfClouds = 15;
+		
+		for(int i = 0; i < numberOfClouds; i++)
+		{
+			float[] vertices = cloudVertice(cloudStartY);
+			CloudObject c = new CloudObject(vertices);
+			c.loadBitmap(cloudBmp);
+			cloudList.add(c);
+			cloudStartY += 1.1f + (float)r.nextInt(1801)/1000.0f;
 		}
 		
 		levels += numberToAdd;

@@ -17,6 +17,7 @@ public class ESRenderer implements GLSurfaceView.Renderer
 	ArrayList<PlatformObject> platforms;
 	Level level;
 	float highestPlatform = 0.0f;
+	float highestCloud = 0.0f;
 	GameActivity game;
 	private int score = 0;
 
@@ -33,6 +34,14 @@ public class ESRenderer implements GLSurfaceView.Renderer
 			if(highestPlatform < p.getYPosition())
 			{
 				highestPlatform = p.getYPosition();
+			}
+		}
+		
+		for(CloudObject c : clouds)
+		{
+			if(highestCloud < c.getYPosition())
+			{
+				highestCloud = c.getYPosition();
 			}
 		}
 	}
@@ -93,14 +102,23 @@ public class ESRenderer implements GLSurfaceView.Renderer
     		
     		if(-camera + 1.5f > highestPlatform)
     		{
-    			level.addPlatforms(5, highestPlatform + 0.6f);
+    			level.addPlatforms(5, highestPlatform + 0.6f, highestCloud + 0.6f);
     			platforms = level.getPlatforms();
+    			clouds = level.getClouds();
     			
     			for(PlatformObject p : platforms)
     			{
     				if(highestPlatform < p.getYPosition())
     				{
     					highestPlatform = p.getYPosition();
+    				}
+    			}
+    			
+    			for(CloudObject c : clouds)
+    			{
+    				if(highestCloud < c.getYPosition())
+    				{
+    					highestCloud = c.getYPosition();
     				}
     			}
     		}
